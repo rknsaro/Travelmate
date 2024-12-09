@@ -1,0 +1,88 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.review-section {
+  text-align: center;
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+  /* background: #fff; */
+  border-radius: 8px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.review-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.review-section p {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.review-slider {
+  display: flex;
+  gap: 20px; /* Space between testimonials */
+  justify-content: center; /* Center the testimonials horizontally */
+}
+
+.review {
+  flex: 1; /* Allow testimonials to stretch evenly */
+  max-width: 400px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+  font-size: 16px;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.details img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.details div {
+  text-align: left;
+}
+
+strong {
+  font-weight: bold;
+  color: #333;
+}
+
+span {
+  color: #777;
+}
+
+/* Optional: Adjust padding for better spacing */
+.container {
+  padding: 40px 20px;
+}
