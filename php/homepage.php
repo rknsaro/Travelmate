@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Redirect to login page if user is not logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: http://localhost/TRAVELMATE/php/login.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,12 +84,13 @@
                         <li><a href="#" data-bs-toggle="modal" data-bs-target="#locationModal">Location</a></li>
                     </ul>
                 </li>
+                <li><a href="./Book Now/book.html" class="active">Book Now</a></li>
                 <li><a href="http://localhost/TRAVELMATE/php/profile.php" class="active">Account</a></li>
             </ul>
             <div class="auth-menu">
                 <div class="auth-icons">
-                    <a href="http://localhost/TRAVELMATE/php/login.php" class="auth-link">Log In</a>/
-                    <a href="http://localhost/TRAVELMATE/signup.php" class="auth-link">Sign Up</a>
+                    <a href="" class="auth-link">Log In</a>/
+                    <a href="" class="auth-link">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -132,7 +143,10 @@
                     <button class="next-btn">&gt;</button>
                 </div>
                 <div class="card-content">
-                    <h3>Solano Hotel</h3> 
+                    <h3>Solano Hotel
+                      <i class="bi bi-heart favorite-icon" id="favorite-icon"></i>
+                    </h3> 
+                    
                     <div class="stars">
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
@@ -165,7 +179,9 @@
                 </div>
                 <div class="card-content">
                   <div class="header">
-                    <h3>Destino Hotel</h3>
+                    <h3>Destino Hotel
+                      <i class="bi bi-heart favorite-icon" id="favorite-icon"></i>
+                    </h3>
                   </div>
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>
@@ -200,7 +216,7 @@
                   <button class="next-btn">&gt;</button>
                 </div>
                 <div class="card-content">
-                  <h3>JVJ Hotel</h3>
+                  <h3>JVJ Hotel <i class="bi bi-heart favorite-icon" id="favorite-icon"></i></h3>
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
@@ -231,7 +247,7 @@
                   <button class="next-btn">&gt;</button>
                 </div>
                 <div class="card-content">
-                  <h3>SM Travelodge</h3>
+                  <h3>SM Travelodge <i class="bi bi-heart favorite-icon" id="favorite-icon"></i></h3>
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
@@ -262,7 +278,7 @@
                   <button class="next-btn">&gt;</button>
                 </div>
                 <div class="card-content">
-                  <h3>Legends Hotel</h3>
+                  <h3>Legends Hotel <i class="bi bi-heart favorite-icon" id="favorite-icon"></i></h3>
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
@@ -293,7 +309,7 @@
                   <button class="next-btn">&gt;</button>
                 </div>
                 <div class="card-content">
-                  <h3>Bicotels Hotel </h3>
+                  <h3>Bicotels Hotel <i class="bi bi-heart favorite-icon" id="favorite-icon"></i></h3>
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
@@ -448,6 +464,16 @@
     
 </section>
           <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="af29a419-15ce-4818-b987-2eb321f79669";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+          <!-- <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const favoriteIcons = document.querySelectorAll('.favorite-icon');
+              favoriteIcons.forEach(icon => {
+                icon.addEventListener('click', () => {
+                  icon.classList.toggle('favorited');
+                });
+              });
+            });
+          </script> -->
           <script>
             document.addEventListener('DOMContentLoaded', () => {
               const favoriteIcons = document.querySelectorAll('.favorite-icon');
@@ -465,6 +491,7 @@
               });
             });
           </script>
+          
 <body>
         <!-- FOOTER -->
         <footer class="container">

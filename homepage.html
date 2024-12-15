@@ -1,46 +1,119 @@
+<?php
+session_start();
+
+// Redirect to login page if user is not logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: http://localhost/TRAVELMATE/php/login.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Travelmate</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./style.css">
 </head>
+<style>
+  .favorite-icon {
+    font-size: 20px;
+    color: #ccc; /* Initial color for the unselected heart */
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .favorite-icon.filled {
+    color: #49b974; /* Color for the selected heart */
+  }
+
+  .favorite-icon.favorited {
+    color: #49b974;;
+  }
+
+  /* .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  } */
+
+  /* .map-container {
+    text-align: center;
+}
+
+.google-map-js {
+    width: 100%;
+    height: 450px;
+    border: none;
+} */
+/* Styles for the map image */
+.map-image {
+    width: 100%;
+    height: 350px;
+    border-radius: 5px;
+    cursor: pointer; /* Makes it clear the image is clickable */
+    transition: opacity 0.3s ease;
+}
+
+/* Optional hover effect */
+.map-image:hover {
+    opacity: 0.8;
+}
+
+
+</style>
+
 <body>
-    <section>
-      <nav class="navbar">
+  <section>
+    <nav class="navbar">
         <div class="navbar-container">
             <div class="logo">
-               <a class="navbar-brand" href="#">TravelMate</a>
+                <a class="navbar-brand" href="#">TravelMate</a>
             </div>
             <ul class="nav-links">
-                <li><a href="./homepage.html" class="active">Home</a></li>
+                <li><a href="./index.html" class="active">Home</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">About</a>
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">About</a>
                     <ul class="dropdown-menu">
                         <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contacts</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#locationModal">Location</a></li>
                     </ul>
                 </li>
-              </li>
-                  <li><a href="./Book Now/book.html" class="active">Book Now</a></li>
-              </li>
+                <li><a href="http://localhost/TRAVELMATE/php/profile.php" class="active">Account</a></li>
             </ul>
-
-            <!-- <div class="auth-menu">
-              <div class="auth-icons">
-                  <a href="./login.html" class="auth-link">Log In</a>/ 
-                  <a href="./signup.html" class="auth-link">Sign Up</a>
-              </div>
-          </div> -->
         </div>
     </nav>
-  </section>
-  <br>
+</section>
+
+    <!-- Location Modal -->
+    <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="locationModalLabel">Our Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <!-- Static Image of the Map with a Clickable Link -->
+                   <p style="text-align: center;">Batangas State University Malvar</p>
+                  <a href="https://www.google.com/maps/place/Batangas+State+University+Jose+P.+Laurel+Polytechnic+College/@14.0449448,121.1533783,17z/data=!3m1!4b1!4m6!3m5!1s0x33bd6ed9735068d7:0x97fd25b226e150e7!8m2!3d14.0449448!4d121.1559532!16s%2Fg%2F11d_889hb0!5m1!1e1?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoJLDEwMjExMjMzSAFQAw%3D%3D" 
+                     target="_blank" 
+                     rel="noopener noreferrer">
+                      <img 
+                          src="./Assets/BSU MAP.png" 
+                          alt="Batangas State University Malvar" 
+                          class="map-image">
+                  </a>
+              </div>              
+                                          
+            </div>
+        </div>
+    </div>
   <section>
     <div class="container col-xxl-8 px-4 py-5">
       <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
@@ -63,7 +136,9 @@
                     <button class="next-btn">&gt;</button>
                 </div>
                 <div class="card-content">
-                    <h3>Solano Hotel</h3>
+                    <h3>Solano Hotel
+                        <i class="bi bi-heart favorite-icon" id="favorite-icon"></i>
+                    </h3>
                     <div class="stars">
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
@@ -72,16 +147,95 @@
                         <i class="bi bi-star text-muted"></i>
                     </div>
                     <p>
-                        Location: Gen. Luna St., Lipa, 4217 Batangas 
-                        <br>
-                        <br>
+                        Location: Gen. Luna St., Lipa, 4217 Batangas
+                        <br><br>
                         Rate: 7,000 per night
                     </p>
-                    <a href="./Book Now/book.html">
-                        <button type="button">Book now</button>
-                    </a>
+                    <!-- Book Now Button -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                        Book Now
+                    </button>
                 </div>
-            </div>
+              </div>
+
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+              <h5 class="modal-title" id="bookingModalLabel">Book Your Batangas Adventure</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body">
+              <form action="http://localhost/TRAVELMATE/php/book.php" method="POST">
+                  <!-- Personal Information Section -->
+                  <div class="form-section">
+                      <h2>Personal Information</h2>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label for="full-name" class="col-form-label">Full Name:</label>
+                              <input type="text" id="full-name" name="full-name" class="form-control" required>
+                          </div>
+                          <div class="col-md-6">
+                              <label for="email" class="col-form-label">Email:</label>
+                              <input type="email" id="email" name="email" class="form-control" required>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label for="phone-number" class="col-form-label">Phone Number:</label>
+                              <input type="tel" id="phone-number" name="phone-number" class="form-control" required>
+                          </div>
+                          <div class="col-md-6">
+                              <label for="address" class="col-form-label">Address:</label>
+                              <input type="text" id="address" name="address" class="form-control" required>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Trip Details Section -->
+                  <div class="form-section">
+                      <h2>Trip Details</h2>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label for="destination" class="col-form-label">Destination:</label>
+                              <select id="destination" name="destination" class="form-control" required>
+                                  <option value="">Select a destination</option>
+                                  <option value="Solano Hotel">Solano Hotel</option>
+                                  <option value="Destino Hotel">Destino Hotel</option>
+                                  <!-- Add more destinations as needed -->
+                              </select>
+                          </div>
+                          <div class="col-md-6">
+                              <label for="travel-date" class="col-form-label">Travel Date:</label>
+                              <input type="date" id="travel-date" name="travel-date" class="form-control" required>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label for="travel-time" class="col-form-label">Time:</label>
+                              <input type="time" id="travel-time" name="travel-time" class="form-control" required>
+                          </div>
+                          <div class="col-md-6">
+                              <label for="num-travelers" class="col-form-label">Number of Travelers:</label>
+                              <input type="number" id="num-travelers" name="num-travelers" class="form-control" required>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Special Requests Section -->
+                  <div class="form-section">
+                      <h2>Special Requests</h2>
+                      <textarea id="special-requests" name="special-requests" class="form-control" placeholder="Any special requirements or requests..." rows="4"></textarea>
+                  </div>
+                  <!-- Submit Button -->
+                  <button type="submit" class="btn btn-primary">Confirm Booking</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
           
               <!-- Destino Beach Resort and Hotel -->
               <div class="card">
@@ -95,25 +249,30 @@
                   <button class="next-btn">&gt;</button>
                 </div>
                 <div class="card-content">
-                  <h3>Destino Beach Hotel</h3>
+                  <div class="header">
+                    <h3>Destino Hotel
+                    </h3>
+                  </div>
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star text-muted"></i>
-                </div>
+                  </div>
                   <p>
                     Location: Sitio Nangkaan, Brgy Locloc, Bauan, Philippines, 4201 
                     <br>
                     <br>
-                    Rate: 3,500 per night</p>
-                  <a href="./Book Now/book.html">
-                    <button type="button">Book now</button>
-                </a>
+                    Rate: 3,500 per night
+                  </p>
+                  <!-- Book Now Button -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                    Book Now
+                </button>
                 </div>
               </div>
-          
+
               <!-- JVJ Hotel -->
               <div class="card">
                 <div class="image-slider">
@@ -139,9 +298,10 @@
                     <br>
                     <br>
                     Rate: 1,500 per night</p>
-                  <a href="./Book Now/book.html">
-                    <button type="button">Book now</button>
-                </a>
+                  <!-- Book Now Button -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                    Book Now
+                </button>
                 </div>
               </div>
           
@@ -170,9 +330,10 @@
                     <br>
                     <br>
                     Rate: 1,805 per night</p>
-                  <a href="./Book Now/book.html">
-                    <button type="button">Book now</button>
-                </a>
+                  <!-- Book Now Button -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                    Book Now
+                </button>
                 </div>
               </div>
           
@@ -201,9 +362,10 @@
                     <br>
                     <br>
                     Rate: 2,363 per night</p>
-                  <a href="./Book Now/book.html">
-                    <button type="button">Book now</button>
-                </a>
+                  <!-- Book Now Button -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                    Book Now
+                </button>
                 </div>
               </div>
           
@@ -232,13 +394,13 @@
                     <br>
                     <br>
                     Rate: 2,573 per night</p>
-                  <a href="./Book Now/book.html">
-                    <button type="button">Book now</button>
-                </a>
+                  <!-- Book Now Button -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                    Book Now
+                </button>
                 </div>
               </div>
             </div>
-
           </section>
 
           <!-- Reviews -->
@@ -343,13 +505,66 @@
             updateSliderPosition();
         });
         });
-            </script>
+        function initMap() {
+            // Location coordinates for Batangas State University
+            const location = { lat: 14.05974895, lng: 121.13260865 };
+
+            // Create the map
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: location,
+                zoom: 15
+            });
+
+            // Add a marker
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: "Batangas State University Malvar Campus"
+            });
+        }
+    </script>
+
+    <!-- Google Maps API Script -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+
+
+
+        </script>
               
   </section>
     
 </section>
-<script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="af29a419-15ce-4818-b987-2eb321f79669";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-
+          <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="af29a419-15ce-4818-b987-2eb321f79669";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+          <!-- <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const favoriteIcons = document.querySelectorAll('.favorite-icon');
+              favoriteIcons.forEach(icon => {
+                icon.addEventListener('click', () => {
+                  icon.classList.toggle('favorited');
+                });
+              });
+            });
+          </script> -->
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const favoriteIcons = document.querySelectorAll('.favorite-icon');
+          
+              favoriteIcons.forEach(icon => {
+                icon.addEventListener('click', () => {
+                  if (icon.classList.contains('bi-heart')) {
+                    icon.classList.remove('bi-heart');
+                    icon.classList.add('bi-heart-fill', 'filled');
+                  } else {
+                    icon.classList.remove('bi-heart-fill', 'filled');
+                    icon.classList.add('bi-heart');
+                  }
+                });
+              });
+            });
+          </script>
+          
 <body>
         <!-- FOOTER -->
         <footer class="container">

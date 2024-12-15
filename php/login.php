@@ -1,3 +1,77 @@
+<?php
+session_start();
+
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Database connection details
+$servername = "localhost";
+$username = "u627256117_travelmate";
+$password = "thisWASNTmytrue#3";
+$dbname = "u627256117_travelmate";
+
+// // Include any other necessary config
+// include '../php/config.php';
+
+// Connect to the database
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
+// Handle login request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $role = trim($_POST['role']);
+
+    // Validate and retrieve user
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("SQL preparation error: " . $conn->error);
+    }
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+
+        // Verify password
+        if (password_verify($password, $user['password'])) {
+            // Check role
+            if ($user['role'] === $role) {
+                // Store user information in the session
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['loggedin'] = true;
+
+                // Redirect to homepage
+                header("Location: homepage.php");
+                exit();
+            } else {
+                echo "Invalid role. Please select the correct role.";
+            }
+        } else {
+            echo "Invalid password.";
+        }
+    } else {
+        echo "No account found with that email.";
+    }
+
+    $stmt->close();
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,7 +199,13 @@
                 <button type="submit">Log In</button>
             </div>
         </form>
-        
+        <p>
+        Don’t have an account yet?
+        <a href="http://localhost/TRAVELMATE/php/signup.php">Sign up</a>
+    </p>
     </div>
+</body>
+</html>
+
 </body>
 </html>

@@ -30,7 +30,6 @@
       }
 
       h1 {
-        margin-bottom: 20px;
         color: #045145;
       }
 
@@ -40,7 +39,7 @@
       }
 
       label {
-        display: block;
+        /* display: block; */
         margin-bottom: 5px;
         font-weight: 500;
       }
@@ -56,23 +55,21 @@
       }
 
       button {
-        background-color: #045145;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        align-items: center;
-        margin-top: 10px;
-      }
+            background-color: #045145;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
       p {
         margin-top: 10px;
-        /* text-align: center; */
       }
 
       a {
-        color: #4CAF50;
+        color: #045145;
+        font-weight: bold;
         text-decoration: none;
       }
 
@@ -114,15 +111,33 @@
 
         <label for="confirmPassword">Confirm Password:</label>
         <input type="password" id="confirmPassword" name="confirmPassword" required>
-
-        <!-- Redirects to index.html when the form is submitted -->
-        <button type="submit">Sign Up</button>
+        
+        <button type="submit" class="signup-btn">Sign Up</button>
     </form>
+    <p >
+      Already have an account? 
+      <a href="/Log In/login.html">Login</a>
+  </p>
 </div>
 
+    <script>
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const submitButton = document.getElementById("submitButton");
+            const passwordError = document.getElementById("passwordError");
 
-            
-        </form>
-    </div>
+            if (password.length < 8) {
+                passwordError.textContent = "Password must be at least 8 characters long.";
+                submitButton.disabled = true;
+            } else if (password !== confirmPassword) {
+                passwordError.textContent = "Passwords do not match.";
+                submitButton.disabled = true;
+            } else {
+                passwordError.textContent = ""; // Clear any error messages
+                submitButton.disabled = false; // Enable the submit button
+            }
+        }
+    </script>
 </body>
 </html>
